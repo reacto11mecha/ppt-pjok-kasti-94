@@ -1,0 +1,24 @@
+{
+  "name": "ppt-pjok-kasti-94",
+  "version": "1.0.0",
+  "description": "Website Presentasi PJOK Permainan Bola Kasti kelas 94",
+  "main": "src/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reacto11mecha/ppt-pjok-kasti-94.git"
+  },
+  "keywords": [
+    "webslides",
+    "ppt",
+    "pjok"
+  ],
+  "author": "Ezra Khairan Permana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reacto11mecha/ppt-pjok-kasti-94/issues"
+  },
+  "homepage": "https://reacto11mecha.github.io/ppt-pjok-kasti-94"
+}
