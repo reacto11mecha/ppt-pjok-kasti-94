@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const PATHS = {
   src: path.join(__dirname, "src"),
@@ -48,7 +49,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/,
+        test: /\.(png|svg|jpe?g|gif)$/,
         use: ["file-loader"],
       },
       {
@@ -79,6 +80,24 @@ module.exports = {
       devMode: "light",
       mode: "light",
       inject: true,
+    }),
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        plugins: [
+          ["mozjpeg", { progressive: true }],
+          ["pngquant", { optimizationLevel: 5 }],
+          [
+            "svgo",
+            {
+              plugins: [
+                {
+                  removeViewBox: false,
+                },
+              ],
+            },
+          ],
+        ],
+      },
     }),
     new MiniCSSExtractPlugin({
       filename: "[name].css",
