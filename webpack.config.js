@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const PATHS = {
@@ -72,6 +73,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       filename: "./index.html",
+    }),
+    new FaviconsWebpackPlugin({
+      logo: "./src/img/favicon.ico",
+      devMode: "light",
+      mode: "light",
+      inject: true,
     }),
     new MiniCSSExtractPlugin({
       filename: "[name].css",
