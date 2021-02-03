@@ -8,3 +8,11 @@
   text-shadow: 2px 2px 3px #eaeaea;
   padding-top: 85px;
 }
+
+.semi-transparent {
+  opacity: 0.75;
+}
+
+.text-light {
+  color: #f7f9fb;
+}
