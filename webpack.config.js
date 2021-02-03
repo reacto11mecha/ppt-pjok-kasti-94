@@ -111,6 +111,8 @@ module.exports = {
           "text-slide-number",
           /^text-slide-/,
           "navigation",
+          "zoom-layer",
+          "wrap-zoom",
           "grid",
           "column",
           "previous",
