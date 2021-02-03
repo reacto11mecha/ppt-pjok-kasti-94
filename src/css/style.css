@@ -34,3 +34,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+#lapangan-heading {
+  padding-top: 170px;
+}
