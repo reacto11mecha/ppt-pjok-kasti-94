@@ -10,4 +10,9 @@ import("webslides").then(() => {
     if (slide.initialised) slide.fullscreen();
     this.blur();
   });
+
+  const noredir = document.querySelectorAll("a.noredir");
+  noredir.forEach((node) =>
+    node.addEventListener("click", (e) => e.preventDefault())
+  );
 });
