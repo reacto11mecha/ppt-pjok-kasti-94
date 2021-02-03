@@ -16,3 +16,21 @@
 .text-light {
   color: #f7f9fb;
 }
+
+.btn-fullscreen {
+  border: none;
+  background-color: transparent;
+  color: whitesmoke;
+}
+
+.bg-lapangan {
+  background-color: #8d8832;
+}
+
+.fw-380 {
+  font-weight: 380;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
