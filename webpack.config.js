@@ -22,6 +22,9 @@ module.exports = {
     path: PATHS.dist,
     filename: "[name].bundle.js",
   },
+  resolve: {
+    extensions: ["*", ".js"],
+  },
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin()],
@@ -39,6 +42,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"],
+      },
       {
         test: /\.html$/,
         use: [
