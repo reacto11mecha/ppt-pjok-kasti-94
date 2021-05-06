@@ -2,6 +2,9 @@
   "name": "ppt-pjok-kasti-94",
   "version": "1.0.0",
   "description": "Website Presentasi PJOK Permainan Bola Kasti kelas 94",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reacto11mecha/ppt-pjok-kasti-94.git"
@@ -19,5 +22,22 @@
   "license": "MIT",
   "dependencies": {
     "webslides": "^1.5.0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "*",
+    "css-loader": "^5.2.4",
+    "css-minimizer-webpack-plugin": "^2.0.0",
+    "html-webpack-plugin": "^5.3.1",
+    "image-minimizer-webpack-plugin": "^2.2.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-svgo": "^9.0.0",
+    "mini-css-extract-plugin": "^1.6.0",
+    "purgecss-webpack-plugin": "^4.0.3",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0"
   }
 }
