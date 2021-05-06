@@ -5,30 +5,24 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
-const PATHS = {
-  src: path.join(__dirname, "src"),
-  dist: path.join(__dirname, "dist"),
-};
+const isProduction =
+  process.argv[process.argv.indexOf("--mode") + 1] === "production";
+const cssInjector = isProduction ? MiniCSSExtractPlugin.loader : "style-loader";
 
 module.exports = {
   entry: {
-    main: "./src/js/script.js",
+    main: path.resolve(__dirname, "./src/js/script.js"),
   },
   output: {
-    publicPath: "",
-    path: PATHS.dist,
+    path: path.resolve(__dirname, "./dist"),
     filename: "[name].bundle.js",
   },
-  resolve: {
-    extensions: ["*", ".js"],
-  },
   optimization: {
-    minimize: true,
-    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+    minimize: isProduction,
+    minimizer: isProduction && [new CssMinimizerPlugin(), new TerserPlugin()],
     splitChunks: {
       cacheGroups: {
         styles: {
@@ -44,95 +38,67 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
-      {
-        test: /\.html$/,
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "[name][ext]",
+        },
         use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true },
-          },
-        ],
-      },
-      {
-        test: /\.(png|svg|jpe?g|gif)$/,
-        use: ["file-loader"],
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCSSExtractPlugin.loader, "css-loader"],
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: "file-loader",
+          isProduction && {
+            loader: ImageMinimizerPlugin.loader,
             options: {
-              name: "[name].[ext]",
+              minimizerOptions: {
+                plugins: ["mozjpeg", "pngquant", "svgo"],
+              },
             },
           },
         ],
+      },
+      {
+        test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+        type: "asset/inline",
+      },
+      {
+        test: /\.css$/,
+        use: [cssInjector, "css-loader"],
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html",
+      template: path.resolve(__dirname, "./src/index.html"),
+      filename: "index.html",
     }),
-    new FaviconsWebpackPlugin({
-      logo: "./src/img/favicon.ico",
-      devMode: "light",
-      mode: "light",
-      inject: true,
-    }),
-    new ImageMinimizerPlugin({
-      minimizerOptions: {
-        plugins: [
-          ["mozjpeg", { progressive: true }],
-          ["pngquant", { optimizationLevel: 5 }],
-          [
-            "svgo",
-            {
-              plugins: [
-                {
-                  removeViewBox: false,
-                },
-              ],
-            },
-          ],
-        ],
-      },
-    }),
-    new MiniCSSExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-    }),
-    new PurgecssPlugin({
-      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
-      safelist: () => ({
-        standard: [
-          "webslides-zoomed",
-          "text-slide-number",
-          /^text-slide-/,
-          "navigation",
-          "zoom-layer",
-          "wrap-zoom",
-          "grid",
-          "column",
-          "previous",
-          "ws-ready",
-          "disabled",
-          "current",
-          "counter",
-          "next",
-          "in",
-        ],
+    isProduction &&
+      new MiniCSSExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css",
       }),
-    }),
+    isProduction &&
+      new PurgecssPlugin({
+        paths: glob.sync(`${path.resolve(__dirname, "./src")}/**/*`, {
+          nodir: true,
+        }),
+        safelist: () => ({
+          standard: [
+            "webslides-zoomed",
+            "text-slide-number",
+            /^text-slide-/,
+            "navigation",
+            "zoom-layer",
+            "wrap-zoom",
+            "grid",
+            "column",
+            "previous",
+            "ws-ready",
+            "disabled",
+            "current",
+            "counter",
+            "next",
+            "in",
+          ],
+        }),
+      }),
   ],
 };
