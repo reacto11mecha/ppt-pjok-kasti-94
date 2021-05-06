@@ -43,6 +43,16 @@ module.exports = {
         generator: {
           filename: "[name][ext]",
         },
+        use: [
+          isProduction && {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizerOptions: {
+                plugins: ["mozjpeg", "pngquant", "svgo"],
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
@@ -64,26 +74,6 @@ module.exports = {
       new MiniCSSExtractPlugin({
         filename: "[name].css",
         chunkFilename: "[id].css",
-      }),
-    isProduction &&
-      new ImageMinimizerPlugin({
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-        minimizerOptions: {
-          plugins: [
-            ["jpegtran", { progressive: true }],
-            ["optipng", { optimizationLevel: 5 }],
-            [
-              "svgo",
-              {
-                plugins: [
-                  {
-                    removeViewBox: false,
-                  },
-                ],
-              },
-            ],
-          ],
-        },
       }),
     isProduction &&
       new PurgecssPlugin({
