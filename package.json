@@ -4,6 +4,7 @@
   "description": "Website Presentasi PJOK Permainan Bola Kasti kelas 94",
   "scripts": {
     "build": "webpack --mode production",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
